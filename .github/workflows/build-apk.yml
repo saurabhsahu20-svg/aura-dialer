@@ -23,11 +23,13 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install SDK Platform 34
-        run: sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
+      - name: Install Android 14 SDK with preinstalled command-line tools
+        shell: bash
+        run: |
+          set -e
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$SDKMANAGER"
+          "$SDKMANAGER" --install 'platforms;android-34' 'build-tools;34.0.0'
 
       - name: Set up Gradle 8.2.1
         uses: gradle/actions/setup-gradle@v4
